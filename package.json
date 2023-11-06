@@ -11,7 +11,10 @@
   "license": "ISC",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/Hacka-kenzie-grupo18/ecommerce-back"
+    "url": "https://github.com/Hacka-kenzie-grupo18/ecommerce-back.git"
+  },
+  "engines": {
+    "node": ">=20.9.0"
   },
   "dependencies": {
     "@prisma/client": "^5.5.2",
