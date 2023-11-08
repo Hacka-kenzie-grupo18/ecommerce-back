@@ -10,106 +10,113 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-
 model User {
-  id             String     @id @default(uuid())
-  name           String     @db.VarChar(255)
-  email          String     @unique @db.VarChar(255)
-  password       String     @db.VarChar(255)
-  phone          String?    @db.VarChar(15)
-  cpf            String     @unique @db.VarChar(11)
-  cep            String     @db.VarChar(9)
-  state          String     @db.VarChar(4)
-  city           String     @db.VarChar(50)
-  street         String     @db.VarChar(255)
-  number         String     @db.VarChar(100)
-  cart           Cart[]
+  uuid     String     @id @default(uuid())
+  name     String     @db.VarChar(255)
+  email    String     @unique @db.VarChar(255)
+  password String     @db.VarChar(255)
+  phone    String?    @db.VarChar(15)
+  cpf      String     @unique @db.VarChar(11)
+  cep      String     @db.VarChar(9)
+  state    String     @db.VarChar(4)
+  city     String     @db.VarChar(50)
+  street   String     @db.VarChar(255)
+  number   String     @db.VarChar(100)
+  isAdm    Boolean    @default(false)
+  cart     Cart[]
+  products Product[]
+  comments Comments[]
 
   @@map("user")
 }
 
 model Product {
-  id                  String  @id @default(uuid())
-  title               String  @db.VarChar(255)
-  description         String  @db.Text()
-  price               Float     
-  rating              Int
-  created_at          DateTime   @default(now())
-  updated_at          DateTime?  @default(now())
-  cart                Cart[]
-  product             Company[]
-  images_product      ImagesProduct[]
-  product_categories  ProductCategories[]
-  stock               Stock[]
-  comments            Comments[]
+  uuid               String              @id @default(uuid())
+  title              String              @db.VarChar(255)
+  description        String              @db.Text()
+  price              Float
+  rating             Int
+  size               ClothingSize        @default(M)
+  color              String              @db.VarChar(50)
+  theme              String?             @db.VarChar(150)
+  created_at         DateTime            @default(now())
+  updated_at         DateTime?           @default(now())
+  cart               Cart[]
+  user               User                @relation(fields: [user_author], references: [uuid], onDelete: Cascade)
+  user_author        String
+  images_product     ImagesProduct[]
+  product_categories ProductCategories[]
+  stock              Stock?
+  comments           Comments[]
 
   @@map("product")
 }
 
-model Categories{
-  id                    String  @id @default(uuid())
-  category              String?   @db.VarChar(255)
-  product_categories    ProductCategories[] 
+model Categories {
+  uuid               String              @id @default(uuid())
+  category           String?             @db.VarChar(255)
+  product_categories ProductCategories[]
 
   @@map("categories")
 }
 
 model ProductCategories {
-  id               String  @id @default(uuid())
-  product          Product?   @relation(fields: [product_uuid], references: [id], onDelete: Cascade)
-  product_uuid     String?
-  categories       Categories?   @relation(fields: [category_uuid], references: [id], onDelete: Cascade)
-  category_uuid     String?
+  uuid          String      @id @default(uuid())
+  product       Product?    @relation(fields: [product_uuid], references: [uuid], onDelete: Cascade)
+  product_uuid  String?
+  categories    Categories? @relation(fields: [category_uuid], references: [uuid], onDelete: Cascade)
+  category_uuid String?
 
   @@map("product_categories")
 }
 
 model Cart {
-  id      String     @id @default(uuid())
-  user        User?   @relation(fields: [user_uuid], references: [id], onDelete: Cascade)
-  product        Product?   @relation(fields: [product_uuid], references: [id], onDelete: Cascade)
-  user_uuid     String?
-  product_uuid     String?
+  uuid         String   @id @default(uuid())
+  quantity     Int
+  user         User?    @relation(fields: [user_uuid], references: [uuid], onDelete: Cascade)
+  user_uuid    String?
+  product      Product? @relation(fields: [product_uuid], references: [uuid], onDelete: Cascade)
+  product_uuid String?
 
   @@map("cart")
 }
 
-model Company {
-  id          String @id @default(uuid())
-  name        String @db.VarChar(255)
-  email        String @db.VarChar(255)
-  product        Product?   @relation(fields: [product_uuid], references: [id], onDelete: Cascade)
-  product_uuid     String?
-
-  @@map("company")
-}
-
 model ImagesProduct {
-  id              String  @id @default(uuid())
-  images_url      String  @db.VarChar(255)
-  product        Product?   @relation(fields: [product_uuid], references: [id], onDelete: Cascade)
-  product_uuid     String?
+  uuid         String   @id @default(uuid())
+  images_url   String   @db.VarChar(255)
+  product      Product? @relation(fields: [product_uuid], references: [uuid], onDelete: Cascade)
+  product_uuid String?
 
   @@map("images_product")
 }
 
 model Stock {
-  id              String  @id @default(uuid())
-  quantity        Int
-  product         Product?   @relation(fields: [product_uuid], references: [id], onDelete: Cascade)
-  product_uuid    String?
+  uuid         String   @id @default(uuid())
+  quantity     Int
+  product      Product? @relation(fields: [product_uuid], references: [uuid], onDelete: Cascade)
+  product_uuid String?  @unique
 
   @@map("stock")
 }
 
 model Comments {
-  id          String  @id @default(uuid())
-  comment     String?  @db.Text()
-  rating      Int
-  created_at  DateTime  @default(now())
-  updated_at  DateTime? @default(now())
-  product         Product?   @relation(fields: [product_uuid], references: [id], onDelete: Cascade)
-  product_uuid    String?
+  uuid         String    @id @default(uuid())
+  comment      String?   @db.Text()
+  rating       Int
+  created_at   DateTime  @default(now())
+  updated_at   DateTime? @default(now())
+  product      Product?  @relation(fields: [product_uuid], references: [uuid], onDelete: Cascade)
+  product_uuid String?
+  user         User      @relation(fields: [user_uuid], references: [uuid], onDelete: Cascade)
+  user_uuid    String
 
   @@map("comments")
+}
+
+enum ClothingSize {
+  P
+  M
+  G
+  GG
+  XG
 }
