@@ -11,21 +11,23 @@ datasource db {
 }
 
 model User {
-  uuid     String     @id @default(uuid())
-  name     String     @db.VarChar(255)
-  email    String     @unique @db.VarChar(255)
-  password String     @db.VarChar(255)
-  phone    String?    @db.VarChar(15)
-  cpf      String     @unique @db.VarChar(11)
-  cep      String     @db.VarChar(9)
-  state    String     @db.VarChar(4)
-  city     String     @db.VarChar(50)
-  street   String     @db.VarChar(255)
-  number   String     @db.VarChar(100)
-  isAdm    Boolean    @default(false)
-  cart     Cart[]
-  products Product[]
-  comments Comments[]
+  uuid                   String     @id @default(uuid())
+  name                   String     @db.VarChar(255)
+  email                  String     @unique @db.VarChar(255)
+  password               String     @db.VarChar(255)
+  resetPasswordToken     String?    @db.VarChar(255)
+  passwordTokenExpiresIn DateTime?  @default(now())
+  phone                  String?    @db.VarChar(15)
+  cpf                    String     @unique @db.VarChar(11)
+  cep                    String     @db.VarChar(9)
+  state                  String     @db.VarChar(4)
+  city                   String     @db.VarChar(50)
+  street                 String     @db.VarChar(255)
+  number                 String     @db.VarChar(100)
+  isAdm                  Boolean    @default(false)
+  cart                   Cart[]
+  products               Product[]
+  comments               Comments[]
 
   @@map("user")
 }

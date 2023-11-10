@@ -3,7 +3,7 @@ import { user } from "../interfaces/user.interfaces";
 import prisma from "../database/prisma";
 import AppError from "../errors/app.errors";
 
-export const ensureEmailAndCPFNotExistsMiddleware = async(req: Request, res:Response, next:NextFunction):Promise<void> => {
+export const ensureEmailAndCPFAlreadyExistsMiddleware = async(req: Request, res:Response, next:NextFunction):Promise<void> => {
     const {email, cpf}: {email?: string, cpf?:string} = req.body
 
     const verify = async (field:string, value: string) => {
