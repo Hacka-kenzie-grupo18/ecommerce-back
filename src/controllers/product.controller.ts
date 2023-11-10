@@ -18,7 +18,7 @@ export const createProductController = async (
     return res.status(201).json(newProduct);
   };
 
-  export const editPostController = async (
+  export const editProductController = async (
     req: Request,
     res: Response
   ): Promise<Response> => {
