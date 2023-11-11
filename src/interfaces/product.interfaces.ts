@@ -4,10 +4,12 @@ import {
   productSchemaArray,
   productSchemaRequest,
   productSchemaRequestUpdate,
+  productSchemaResponse,
 } from "../schemas/product.schema";
 
 export type products = z.infer<typeof productSchema>;
 export type productsRequest = z.infer<typeof productSchemaRequest>;
+export type productResponse = z.infer<typeof productSchemaResponse>;
 export type productsRequestUpdate = z.infer<typeof productSchemaRequestUpdate>;
 export type productsResponseArray = z.infer<typeof productSchemaArray>;
 

@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import { productResponseArrayPaginated, products, productsRequest, productsRequestUpdate } from "../interfaces/product.interfaces";
+import { productResponse, productResponseArrayPaginated, products, productsRequest, productsRequestUpdate } from "../interfaces/product.interfaces";
 import { createProductService } from "../services/product/createProduct.service";
 import { editProductService } from "../services/product/editProduct.service";
 import { listAllProductsService } from "../services/product/listAllProducts.service";
@@ -13,7 +13,7 @@ export const createProductController = async (
     const userUUID: string = res.locals.userUUID;
     const data: productsRequest = req.body;
   
-    const newProduct: products = await createProductService(userUUID, data);
+    const newProduct: productResponse = await createProductService(userUUID, data);
   
     return res.status(201).json(newProduct);
   };

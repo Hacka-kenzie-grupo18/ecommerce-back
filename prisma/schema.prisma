@@ -36,8 +36,8 @@ model Product {
   uuid               String              @id @default(uuid())
   title              String              @db.VarChar(255)
   description        String              @db.Text()
-  price              Float
-  rating             Int
+  price              Float               
+  rating             Int?
   size               ClothingSize        @default(M)
   color              String              @db.VarChar(50)
   theme              String?             @db.VarChar(150)

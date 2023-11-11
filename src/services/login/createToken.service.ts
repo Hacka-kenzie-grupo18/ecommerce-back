@@ -6,7 +6,7 @@ import bcrypt from 'bcryptjs'
 import "dotenv"
 import jwt from "jsonwebtoken"
 
-export const createTokenService = async (data:login, req: any):Promise<string>=> {
+export const createTokenService = async (data:login):Promise<string>=> {
     const {email, password} = data
 
     const possibleUser: user | undefined | null = await prisma.user.findFirst({where: {email: email}})
@@ -15,12 +15,9 @@ export const createTokenService = async (data:login, req: any):Promise<string>=>
         throw new AppError("Email or password doesn't match", 401)
     }
 
-    console.log(possibleUser)
-
     const isCorrectPassword = await bcrypt.compare(password, possibleUser.password)
-    req.user = { email: possibleUser.email, userId: possibleUser.uuid.toString(), isAdmin: possibleUser.isAdm };
 
-  
+
     if(!isCorrectPassword){
         throw new AppError("Email or password doesn't match", 401)
     }

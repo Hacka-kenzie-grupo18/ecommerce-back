@@ -1,15 +1,17 @@
 import { Router } from "express";
 import { createProductController, deleteProductController, editProductController, listAllProductsController, listAllProductsUserController } from "../controllers/product.controller";
 import { ensureIsAdminUser } from "../middlewares/ensureIsAdminUser.middleware";
-import { productSchema, productSchemaRequestUpdate } from "../schemas/product.schema";
+import {  productSchemaRequest, productSchemaRequestUpdate } from "../schemas/product.schema";
 import { ensureDataIsValidMiddleware } from "../middlewares/ensureDataIsValid.middleware";
+import { ensureUserIsAuthMiddleware } from "../middlewares/ensureUserIsAuth.middleware";
 
 export const productRoutes: Router = Router()
 
 
 productRoutes.post(
     "", 
-    ensureDataIsValidMiddleware(productSchema), 
+    ensureUserIsAuthMiddleware,
+    ensureDataIsValidMiddleware(productSchemaRequest), 
     ensureIsAdminUser, 
     createProductController
 )

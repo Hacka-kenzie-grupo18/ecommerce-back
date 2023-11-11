@@ -1,12 +1,15 @@
 import { z } from "zod";
+import { userSchemaResponse } from "./user.schema";
 
-enum ClothingSize {
-    P = 'P',
-    M = 'M',
-    G = 'G',
-    GG = 'GG',
-    XG = 'XG',
-  }
+// enum clothingSize {
+//   P = 'P',
+//   M = 'M',
+//   G = 'G',
+//   GG = 'GG',
+//   XG = 'XG',
+// }
+
+const clothingSizeArray = ['P', 'M', 'G', 'GG', 'XG'] as const
 
 export const productSchema = z.object({
   uuid: z.string().uuid(),
@@ -14,23 +17,28 @@ export const productSchema = z.object({
   image: z.string().max(255).nullish(),
   description: z.string(),
   price: z.number(),
-  size: z.nativeEnum(ClothingSize),
+  size: z.enum(clothingSizeArray),
   color: z.string().max(50),
   theme: z.string(),
-  user_author: z.string(),
+  category: z.string(),
+  rating : z.number().nullable(),
+  user_author: userSchemaResponse,
   createdAt: z.date().nullish(),
   updatedAt: z.date().nullish(),
 });
 
 export const productSchemaRequest = productSchema.omit({
   uuid: true,
-  author: true,
   user_author: true,
-  image: true,
   createdAt: true,
   updatedAt: true,
+  rating: true
 });
 
-export const productSchemaRequestUpdate = productSchemaRequest.deepPartial();
+export const productSchemaResponse = productSchema.omit({
+  category: true
+})
+
+export const productSchemaRequestUpdate = productSchemaRequest.partial();
 
 export const productSchemaArray = productSchema.array();
