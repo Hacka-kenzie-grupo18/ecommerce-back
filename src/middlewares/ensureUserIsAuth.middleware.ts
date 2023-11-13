@@ -20,6 +20,5 @@ export const ensureUserIsAuthMiddleware = (req:Request, res:Response, next: Next
   
       next();
     });
-
     
 }
