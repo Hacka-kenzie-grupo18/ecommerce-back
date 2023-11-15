@@ -36,20 +36,21 @@ model Product {
   uuid               String              @id @default(uuid())
   title              String              @db.VarChar(255)
   description        String              @db.Text()
-  price              Float               
+  price              Float
   rating             Int?
-  size               ClothingSize        @default(M)
-  color              String              @db.VarChar(50)
-  theme              String?             @db.VarChar(150)
+  sex                Sex
   created_at         DateTime            @default(now())
   updated_at         DateTime?           @default(now())
   cart               Cart[]
   user               User                @relation(fields: [user_author], references: [uuid], onDelete: Cascade)
   user_author        String
-  images_product     ImagesProduct[]
+  product_themes     ProductThemes[]
+  product_images     ImagesProduct[]
   product_categories ProductCategories[]
-  stock              Stock?
+  stock              Int      
   comments           Comments[]
+  product_sizes      ProductSizes[]
+  product_colors     ProductColors[]
 
   @@map("product")
 }
@@ -92,15 +93,6 @@ model ImagesProduct {
   @@map("images_product")
 }
 
-model Stock {
-  uuid         String   @id @default(uuid())
-  quantity     Int
-  product      Product? @relation(fields: [product_uuid], references: [uuid], onDelete: Cascade)
-  product_uuid String?  @unique
-
-  @@map("stock")
-}
-
 model Comments {
   uuid         String    @id @default(uuid())
   comment      String?   @db.Text()
@@ -115,10 +107,61 @@ model Comments {
   @@map("comments")
 }
 
-enum ClothingSize {
-  P
-  M
-  G
-  GG
-  XG
+model Sizes {
+  uuid         String         @id @default(uuid())
+  size         String?        @db.VarChar(4)
+  productSizes ProductSizes[]
+
+  @@map("sizes")
+}
+
+model ProductSizes {
+  uuid         String   @id @default(uuid())
+  size         Sizes?   @relation(fields: [size_uuid], references: [uuid], onDelete: Cascade)
+  size_uuid    String?
+  product      Product? @relation(fields: [product_uuid], references: [uuid], onDelete: Cascade)
+  product_uuid String?
+
+  @@map("product_sizes")
+}
+
+model Colors {
+  uuid          String          @id @default(uuid())
+  color         String?         @db.VarChar(155)
+  colorsProduct ProductColors[]
+
+  @@map("colors")
+}
+
+model ProductColors {
+  uuid         String   @id @default(uuid())
+  color        Colors?  @relation(fields: [color_uuid], references: [uuid], onDelete: Cascade)
+  color_uuid   String?
+  product      Product? @relation(fields: [product_uuid], references: [uuid], onDelete: Cascade)
+  product_uuid String?
+
+  @@map("product_colors")
+}
+
+model Themes {
+  uuid           String          @id @default(uuid())
+  theme          String          @db.VarChar(155)
+  themes_product ProductThemes[]
+
+  @@map("themes")
+}
+
+model ProductThemes {
+  uuid         String   @id @default(uuid())
+  theme        Themes?  @relation(fields: [theme_uuid], references: [uuid], onDelete: Cascade)
+  theme_uuid   String?
+  product      Product? @relation(fields: [product_uuid], references: [uuid], onDelete: Cascade)
+  product_uuid String?
+
+  @@map("product_themes")
+}
+
+enum Sex {
+  Masculino
+  Feminino
 }

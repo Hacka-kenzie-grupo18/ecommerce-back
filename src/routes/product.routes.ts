@@ -1,7 +1,7 @@
 import { Router } from "express";
-import { createProductController, deleteProductController, editProductController, listAllProductsController, listAllProductsUserController } from "../controllers/product.controller";
+import { createProductController } from "../controllers/product.controller";
 import { ensureIsAdminUser } from "../middlewares/ensureIsAdminUser.middleware";
-import {  productSchemaRequest, productSchemaRequestUpdate } from "../schemas/product.schema";
+import {  productSchemaRequest } from "../schemas/product/product.schema";
 import { ensureDataIsValidMiddleware } from "../middlewares/ensureDataIsValid.middleware";
 import { ensureUserIsAuthMiddleware } from "../middlewares/ensureUserIsAuth.middleware";
 
@@ -16,18 +16,18 @@ productRoutes.post(
     createProductController
 )
 
-productRoutes.patch(
-    "/:uuid", 
-    ensureDataIsValidMiddleware(productSchemaRequestUpdate), 
-    ensureIsAdminUser, 
-    editProductController
-)
+// productRoutes.patch(
+//     "/:uuid", 
+//     ensureDataIsValidMiddleware(productSchemaRequestUpdate), 
+//     ensureIsAdminUser, 
+//     editProductController
+// )
 
-productRoutes.delete(
-    "/:uuid",
-    deleteProductController
-  );
+// productRoutes.delete(
+//     "/:uuid",
+//     deleteProductController
+//   );
 
-productRoutes.get("/:uuid", listAllProductsUserController);
+// productRoutes.get("/:uuid", listAllProductsUserController);
 
-productRoutes.get("", listAllProductsController);
+// productRoutes.get("", listAllProductsController);

@@ -5,7 +5,7 @@ import {
   productSchemaRequest,
   productSchemaRequestUpdate,
   productSchemaResponse,
-} from "../schemas/product.schema";
+} from "../schemas/product/product.schema";
 
 export type products = z.infer<typeof productSchema>;
 export type productsRequest = z.infer<typeof productSchemaRequest>;

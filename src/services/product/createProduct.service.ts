@@ -1,6 +1,6 @@
 import prisma from "../../database/prisma";
 import { productResponse,  productsRequest } from "../../interfaces/product.interfaces";
-import {  productSchemaResponse } from "../../schemas/product.schema";
+import {  productSchemaResponse } from "../../schemas/product/product.schema";
 
 export const createProductService = async (
   userUUID: string,
