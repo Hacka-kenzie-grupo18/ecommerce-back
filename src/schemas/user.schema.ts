@@ -12,11 +12,21 @@ export const userSchema = z.object({
     city:     z.string().max(50),
     street:   z.string().max(255),
     number:   z.string().max(100),
-    isAdm:    z.boolean().default(false)
+    isAdm:    z.boolean().default(false),
+    resetPasswordToken: z.string().nullable(),
+    passwordTokenExpiresIn: z.date().nullable()
 })
 
-export const userSchemaRequest  = userSchema.omit({uuid: true})
+export const userSchemaRequest  = userSchema.omit({uuid: true, resetPasswordToken: true, passwordTokenExpiresIn: true})
 
 export const userSchemaResponse = userSchema.omit({password: true})
 
 export const userSchemaUpdate   = userSchemaResponse.partial()
+
+export const userSchemaEmailResetPassword = z.object({
+    email: z.string().email()
+})
+
+export const userSchemaPasswordReset = z.object({
+    password: z.string().min(6)
+})
