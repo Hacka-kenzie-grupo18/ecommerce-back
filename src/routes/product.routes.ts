@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { createProductController } from "../controllers/product.controller";
+import { createProductController, listAllProductsController } from "../controllers/product.controller";
 import { ensureIsAdminUser } from "../middlewares/ensureIsAdminUser.middleware";
 import {  productSchemaRequest } from "../schemas/product/product.schema";
 import { ensureDataIsValidMiddleware } from "../middlewares/ensureDataIsValid.middleware";
@@ -16,6 +16,8 @@ productRoutes.post(
     createProductController
 )
 
+productRoutes.get("", ensureUserIsAuthMiddleware, listAllProductsController)
+
 // productRoutes.patch(
 //     "/:uuid", 
 //     ensureDataIsValidMiddleware(productSchemaRequestUpdate), 
@@ -28,6 +30,3 @@ productRoutes.post(
 //     deleteProductController
 //   );
 
-// productRoutes.get("/:uuid", listAllProductsUserController);
-
-// productRoutes.get("", listAllProductsController);
