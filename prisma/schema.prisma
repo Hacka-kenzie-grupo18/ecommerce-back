@@ -37,7 +37,7 @@ model Product {
   title              String              @db.VarChar(255)
   description        String              @db.Text()
   price              Float
-  rating             Int?
+  rating             Float?
   sex                Sex
   created_at         DateTime            @default(now())
   updated_at         DateTime?           @default(now())
@@ -96,7 +96,7 @@ model ImagesProduct {
 model Comments {
   uuid         String    @id @default(uuid())
   comment      String?   @db.Text()
-  rating       Int
+  rating       Int?
   created_at   DateTime  @default(now())
   updated_at   DateTime? @default(now())
   product      Product?  @relation(fields: [product_uuid], references: [uuid], onDelete: Cascade)
@@ -145,7 +145,7 @@ model ProductColors {
 
 model Themes {
   uuid           String          @id @default(uuid())
-  theme          String          @db.VarChar(155)
+  theme          String?          @db.VarChar(155)
   themes_product ProductThemes[]
 
   @@map("themes")
@@ -164,4 +164,5 @@ model ProductThemes {
 enum Sex {
   Masculino
   Feminino
+  Unisex
 }

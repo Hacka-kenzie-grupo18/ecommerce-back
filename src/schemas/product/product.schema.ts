@@ -6,7 +6,7 @@ import { categoriesSchema } from "./categories.schemas";
 import { sizesSchemas } from "./sizes.schemas";
 import { colorsSchema } from "./colors.schema";
 
-const VALUES = ["Masculino", "Feminino"] as const
+const VALUES = ["Masculino", "Feminino", "Unisex"] as const
 
 
 export const productSchema = z.object({
@@ -18,7 +18,7 @@ export const productSchema = z.object({
   sex: z.enum(VALUES),
   sizes: z.array(z.string()),
   colors: z.array(z.string()),
-  theme: z.string(),
+  theme: z.array(z.string()),
   category: z.string(),
   stock: z.number(),
   rating : z.number().nullable(),

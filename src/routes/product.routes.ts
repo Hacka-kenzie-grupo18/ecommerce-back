@@ -11,8 +11,8 @@ export const productRoutes: Router = Router()
 productRoutes.post(
     "", 
     ensureUserIsAuthMiddleware,
-    ensureDataIsValidMiddleware(productSchemaRequest), 
     ensureIsAdminUser, 
+    ensureDataIsValidMiddleware(productSchemaRequest), 
     createProductController
 )
 

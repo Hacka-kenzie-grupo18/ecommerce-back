@@ -5,13 +5,15 @@ import { createProductService } from "../services/product/createProduct.service"
 export const createProductController = async (
     req: Request,
     res: Response
-  ): Promise<Response> => {
+  ) => {
     const userUUID: string = res.locals.userUUID;
     const data: productsRequest = req.body;
   
-    const newProduct: productResponse = await createProductService(userUUID, data);
+    const newProduct= await createProductService(userUUID, data);
+
+    return res.status(201).json(newProduct)
   
-    return res.status(201).json(newProduct);
+   
   };
 
   // export const editProductController = async (
