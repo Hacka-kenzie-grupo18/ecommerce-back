@@ -5,11 +5,15 @@ import { user } from "../interfaces/user.interfaces";
 
 export const ensureIsAdminUser = async(req: Request, res: Response, next: NextFunction):Promise<void> => {
 
-    const userUUID: string = res.locals.userUUI;
+    const userUUID: string = res.locals.userUUID;
+
+    
 
     const dbUser: user | undefined | null = await prisma.user.findFirst({ where: { uuid: userUUID } });
 
-    if (!dbUser!.isAdm) {
+    
+
+    if (dbUser!.isAdm == false) {
         throw new AppError('Unauthorized access. You are not an administrator.', 403);
     }
 
