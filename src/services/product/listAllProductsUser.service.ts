@@ -1,38 +1,33 @@
-// import prisma from "../../database/prisma";
-// import { productResponseArrayPaginated, productsResponseArray } from "../../interfaces/product.interfaces";
-// import { handlePaginationListAllUserProducts } from "../utils/pagination/handlePaginationListAllUserProducts";
+import prisma from "../../database/prisma"
 
+export const listAllProductsUserService = async ()=> {
 
-// export const listAllProductsUserService = async (
-//     limit: any,
-//     offset: any,
-//     userUUID: string
-//   ): Promise<productResponseArrayPaginated> => {
-//     limit = Number(limit);
-//     if (!limit) {
-//       limit = 5;
-//     }
-  
-//     offset = Number(offset);
-//     if (!offset) {
-//       offset = 0;
-//     }
-  
-//     const userProducts: productsResponseArray | null = await prisma.product.findMany({
-//       where: { user_author: userUUID },
-//       skip: offset,
-//       take: limit,
-//     });
-  
-//     const { nextUrl, previousUrl, totalProducts } =
-//       await handlePaginationListAllUserProducts(limit, offset, userUUID);
-  
-//     return {
-//       nextUrl,
-//       previousUrl,
-//       Total: totalProducts,
-//       limit,
-//       offset,
-//       products: userProducts,
-//     };
-//   };
+    const allProducts = await prisma.product.findMany({
+        include: {
+            product_categories: {
+                include: {
+                    categories: true
+                }
+            },
+            product_colors: {
+                include: {
+                    color: true
+                }
+            },
+            product_images: true,
+            product_sizes: {
+                include: {
+                    size: true
+                }
+            },
+            product_themes: {
+                include: {
+                    theme: true
+                }
+            }
+        }
+    })
+
+    return allProducts
+
+}
