@@ -1,8 +1,10 @@
 import prisma from "../../database/prisma"
 
-export const listAllProductsUserService = async ()=> {
-
-    const allProducts = await prisma.product.findMany({
+export const listUniqueProductService = async (productUUID: string)=> {
+    const product = await prisma.product.findFirst({
+        where: {
+            uuid: productUUID
+        },
         include: {
             product_categories: {
                 include: {
@@ -24,10 +26,10 @@ export const listAllProductsUserService = async ()=> {
                 include: {
                     theme: true
                 }
-            }
+            },
+            user: true
         }
     })
 
-    return allProducts
-
+    return product
 }
