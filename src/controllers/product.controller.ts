@@ -41,3 +41,11 @@ export const deleteProductController = async (req:Request, res:Response):Promise
     await deleteProductService(req.params.uuid)
     return res.status(200).json()
 }
+
+
+export const validatedUserCodeController = (req: Request, res: Response):Response => {
+  
+  return res.status(200).json({ 
+    "message": "Valid Token"
+  })
+}

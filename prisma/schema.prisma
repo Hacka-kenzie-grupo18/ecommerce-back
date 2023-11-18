@@ -25,6 +25,7 @@ model User {
   street                 String     @db.VarChar(255)
   number                 String     @db.VarChar(100)
   isAdm                  Boolean    @default(false)
+  code                   String?     @db.VarChar(255)
   cart                   Cart[]
   products               Product[]
   comments               Comments[]

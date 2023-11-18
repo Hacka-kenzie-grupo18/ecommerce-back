@@ -4,6 +4,9 @@ import { createUserController, resetPasswordController, sendEmailResetPasswordCo
 import {  userSchemaEmailResetPassword, userSchemaPasswordReset, userSchemaRequest } from "../schemas/user.schema";
 import { ensureEmailAndCPFAlreadyExistsMiddleware } from "../middlewares/ensureEmailAndCPFNotExists.middleware";
 import { ensureResetPasswordTokenIsValidMiddleware } from "../middlewares/ensureResetPasswordTokenIsValid.middleware";
+import { ensureUserIsAuthMiddleware } from "../middlewares/ensureUserIsAuth.middleware";
+import { ensureCodeIsValidMiddleware } from "../middlewares/ensureCodeIsValid.middleware";
+import { validatedUserCodeController } from "../controllers/product.controller";
 
 
 export const userRoutes: Router = Router()
@@ -26,3 +29,10 @@ userRoutes.patch(
     ensureDataIsValidMiddleware(userSchemaPasswordReset)
     , ensureResetPasswordTokenIsValidMiddleware, 
     resetPasswordController)
+
+
+userRoutes.get(
+    "/codeApply/:code", 
+    ensureUserIsAuthMiddleware, 
+    ensureCodeIsValidMiddleware, 
+    validatedUserCodeController )
