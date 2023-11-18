@@ -4,6 +4,7 @@ import { createProductService } from "../services/product/createProduct.service"
 import { listAllProductsService } from "../services/product/listAllProducts.service";
 import { listUniqueProductService } from "../services/product/listUniqueProduct.service";
 import { deleteProductService } from "../services/product/deleteProduct.service";
+import { listUserInfosService } from "../services/user/listUserInfos.service";
 
 
 export const createProductController = async (
@@ -49,3 +50,10 @@ export const validatedUserCodeController = (req: Request, res: Response):Respons
     "message": "Valid Token"
   })
 }
+
+
+export const listUserInfosController = async (req:Request, res:Response): Promise<Response> => {
+    const user = await listUserInfosService(res.locals.userUUID)
+
+    return res.status(200).json(user)
+  }
