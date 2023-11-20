@@ -97,7 +97,7 @@ model ImagesProduct {
 model Comments {
   uuid         String    @id @default(uuid())
   comment      String?   @db.Text()
-  rating       Int?
+  rating       Int?      
   created_at   DateTime  @default(now())
   updated_at   DateTime? @default(now())
   product      Product?  @relation(fields: [product_uuid], references: [uuid], onDelete: Cascade)
