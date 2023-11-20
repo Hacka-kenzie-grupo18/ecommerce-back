@@ -1,6 +1,5 @@
 import prisma from "../../database/prisma";
 import {   productsRequest } from "../../interfaces/product.interfaces";
-import {  productSchemaResponse } from "../../schemas/product/product.schema";
 import { checkIfExists } from "./utils/checkIfExists";
 import { format } from "./utils/format";
 
