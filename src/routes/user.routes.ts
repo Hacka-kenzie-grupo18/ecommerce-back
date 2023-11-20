@@ -1,12 +1,14 @@
 import { Router } from "express";
 import { ensureDataIsValidMiddleware } from "../middlewares/ensureDataIsValid.middleware";
-import { createUserController, resetPasswordController, sendEmailResetPasswordController } from "../controllers/user.controller";
+import { addProductToCartController, createUserController, listUserInfosController, removeProductInCartController, resetPasswordController, sendEmailResetPasswordController, validatedUserCodeController } from "../controllers/user.controller";
 import {  userSchemaEmailResetPassword, userSchemaPasswordReset, userSchemaRequest } from "../schemas/user.schema";
 import { ensureEmailAndCPFAlreadyExistsMiddleware } from "../middlewares/ensureEmailAndCPFNotExists.middleware";
 import { ensureResetPasswordTokenIsValidMiddleware } from "../middlewares/ensureResetPasswordTokenIsValid.middleware";
 import { ensureUserIsAuthMiddleware } from "../middlewares/ensureUserIsAuth.middleware";
 import { ensureCodeIsValidMiddleware } from "../middlewares/ensureCodeIsValid.middleware";
-import { listUserInfosController, validatedUserCodeController } from "../controllers/product.controller";
+import { ensureProductExistsMiddleware } from "../middlewares/ensureProductExists.middleware";
+import { cartSchemaRequest } from "../schemas/cart.schema";
+import { ensureProductIsInCartMiddleware } from "../middlewares/ensureProductIsInCart.middleware";
 
 
 export const userRoutes: Router = Router()
@@ -38,4 +40,21 @@ userRoutes.get(
     validatedUserCodeController )
 
 
-userRoutes.get("", ensureUserIsAuthMiddleware, listUserInfosController)
+userRoutes.get(
+    "", 
+    ensureUserIsAuthMiddleware, 
+    listUserInfosController)
+
+userRoutes.post(
+    "/product/:uuid", 
+    ensureUserIsAuthMiddleware, 
+    ensureProductExistsMiddleware,
+    ensureDataIsValidMiddleware(cartSchemaRequest),
+    addProductToCartController)
+
+userRoutes.delete(
+    "/product/:uuid",
+    ensureUserIsAuthMiddleware,
+    ensureProductIsInCartMiddleware,
+    removeProductInCartController
+)
