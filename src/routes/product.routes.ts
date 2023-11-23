@@ -7,6 +7,7 @@ import { ensureUserIsAuthMiddleware } from "../middlewares/ensureUserIsAuth.midd
 import { ensureProductExistsMiddleware } from "../middlewares/ensureProductExists.middleware";
 import { ensureAdmIsOwnerProductMiddleware } from "../middlewares/ensureAdmIsOwnerProduct.middleware";
 
+
 export const productRoutes: Router = Router()
 
 
