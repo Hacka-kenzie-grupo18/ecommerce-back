@@ -7,7 +7,9 @@ import { ensureUserIsAuthMiddleware } from "../middlewares/ensureUserIsAuth.midd
 import { ensureProductExistsMiddleware } from "../middlewares/ensureProductExists.middleware";
 import { ensureAdmIsOwnerProductMiddleware } from "../middlewares/ensureAdmIsOwnerProduct.middleware";
 import { commentsRequestSchema } from "../schemas/comments";
-import { createCommentsController } from "../controllers/comments.controller";
+import { createCommentsController, deleteCommentController } from "../controllers/comments.controller";
+import {  ensureCommentExistsMiddleware } from "../middlewares/ensureCommentExists.middleware";
+import { ensureUserIsCommentOwnerMiddleware } from "../middlewares/ensureUserIsCommentOwner.middleware";
 
 export const productRoutes: Router = Router()
 
@@ -51,3 +53,11 @@ productRoutes.post(
     ensureDataIsValidMiddleware(commentsRequestSchema),
     createCommentsController
     )
+
+productRoutes.delete(
+    "/comments/:uuid",
+    ensureUserIsAuthMiddleware,
+    ensureCommentExistsMiddleware,
+    ensureUserIsCommentOwnerMiddleware,
+    deleteCommentController
+)

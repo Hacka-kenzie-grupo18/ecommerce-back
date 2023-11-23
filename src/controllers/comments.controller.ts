@@ -1,5 +1,6 @@
 import { Request, Response } from "express";
 import { createCommentService } from "../services/comments/createComment.service";
+import { deleteCommentService } from "../services/comments/deleteComment.service";
 
 export const createCommentsController = async(
     req:Request,
@@ -16,4 +17,18 @@ export const createCommentsController = async(
     )
 
     return res.status(201).json(comment)
+}
+
+
+export const deleteCommentController = async(
+    req:Request,
+    res:Response
+): Promise <Response> => { 
+
+    const commentUUID = req.params.uuid
+    
+    await deleteCommentService(commentUUID)
+
+    return res.status(204).json()
+
 }
