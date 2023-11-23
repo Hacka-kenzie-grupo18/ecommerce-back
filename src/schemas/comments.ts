@@ -20,3 +20,6 @@ export const commentsRequestSchema = commentsSchema.omit({
     created_at: true,
     updated_at: true
 })
+
+
+export const commentsRequestUpdate = commentsRequestSchema.partial()

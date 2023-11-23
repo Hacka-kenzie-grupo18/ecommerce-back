@@ -46,14 +46,14 @@ userRoutes.get(
     listUserInfosController)
 
 userRoutes.post(
-    "/product/:uuid", 
+    "/cart/product/:uuid", 
     ensureUserIsAuthMiddleware, 
     ensureProductExistsMiddleware,
     ensureDataIsValidMiddleware(cartSchemaRequest),
     addProductToCartController)
 
 userRoutes.delete(
-    "/product/:uuid",
+    "/cart/product/:uuid",
     ensureUserIsAuthMiddleware,
     ensureProductIsInCartMiddleware,
     removeProductInCartController

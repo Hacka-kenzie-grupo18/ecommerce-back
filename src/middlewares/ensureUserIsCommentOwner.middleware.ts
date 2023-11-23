@@ -11,7 +11,7 @@ export const ensureUserIsCommentOwnerMiddleware = async (req:Request, res: Respo
     })
 
     if(!isOwner){
-        throw new AppError("you are not allowed to delete that comment", 403)
+        throw new AppError("you are not allowed to modify that comment", 403)
     }
 
     return next()
